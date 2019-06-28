@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <AddTodo/>
+      <AddTodo @create-todo="createTodo"/>
       <ul>
         <TodoItem v-for="todo in todos" :key="todo.id" v-bind:todo="todo" class="todo"/>
       </ul>
@@ -28,7 +28,13 @@ export default {
     TodoItem,
     AddTodo
   },
-  events: {}
+  methods: {
+    createTodo(todo) {
+      const lastId = this.todos[this.todos.length - 1].id;
+      todo.id = lastId + 1;
+      this.todos.push(todo);
+    }
+  }
 };
 </script>
 

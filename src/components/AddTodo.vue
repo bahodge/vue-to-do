@@ -14,7 +14,7 @@ function onSubmit() {
     completed: false,
     id: null
   };
-  this.$emit("todo-created", newTodo);
+  this.$emit("create-todo", newTodo);
   this.title = null;
 }
 
