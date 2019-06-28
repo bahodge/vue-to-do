@@ -1,9 +1,12 @@
 <template>
-  <li
-    v-on:click="markComplete(todo)"
-    class="todo"
-    :style="handleComponentStyles(todo)"
-  >{{todo.title}}</li>
+  <li>
+    <span
+      v-on:click="markComplete(todo)"
+      class="todo"
+      :style="handleComponentStyles(todo)"
+    >{{todo.title}}</span>
+    <span class="delete-btn" @click="deleteTodo(todo)">X</span>
+  </li>
 </template>
 
 <script>
@@ -20,6 +23,7 @@ const handleComponentStyles = ({ completed }) => {
   const fontSize = completed ? styleHelper.small : styleHelper.large;
   return {
     color: color,
+    textAlign: "left",
     fontSize: fontSize,
     margin: styleHelper.margin
   };
@@ -33,7 +37,10 @@ export default {
   },
   methods: {
     markComplete,
-    handleComponentStyles
+    handleComponentStyles,
+    deleteTodo(todo) {
+      this.$emit("delete-todo", todo);
+    }
   }
 };
 </script>
@@ -42,9 +49,13 @@ export default {
 li {
   background-color: whitesmoke;
   margin: 0 auto;
-  padding: 15px;
 }
-
+.delete-btn {
+  text-align: "right";
+  font-size: 1rem;
+  padding: 1rem;
+  float: right;
+}
 .incomplete {
   color: orange;
 }

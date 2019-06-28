@@ -3,7 +3,13 @@
     <div>
       <AddTodo @create-todo="createTodo"/>
       <ul>
-        <TodoItem v-for="todo in todos" :key="todo.id" v-bind:todo="todo" class="todo"/>
+        <TodoItem
+          v-for="todo in todos"
+          :key="todo.id"
+          v-bind:todo="todo"
+          class="todo"
+          @delete-todo="deleteTodo"
+        />
       </ul>
     </div>
   </div>
@@ -13,6 +19,7 @@
 <script>
 import TodoItem from "./TodoItem";
 import AddTodo from "./AddTodo";
+
 export default {
   name: "Todo",
   data() {
@@ -29,10 +36,17 @@ export default {
     AddTodo
   },
   methods: {
+    handleId() {
+      let lastTodo = this.todos[this.todos.length - 1];
+      lastTodo ? lastTodo.id + 1 : 1;
+    },
     createTodo(todo) {
-      const lastId = this.todos[this.todos.length - 1].id;
-      todo.id = lastId + 1;
+      todo.id = this.handleId();
       this.todos.push(todo);
+    },
+    deleteTodo(todo) {
+      const existingTodo = this.todos.find(t => t.id == todo.id);
+      this.todos = this.todos.filter(todo => todo.id != existingTodo.id);
     }
   }
 };
